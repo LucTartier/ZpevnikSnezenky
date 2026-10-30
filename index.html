@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fr" class="h-full">
+<html lang="cs" class="h-full">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Songbook Guitare</title>
+    <title>Zpěvník na kytaru</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
@@ -155,14 +155,14 @@
                     </svg>
                 </div>
                 <div class="min-w-0">
-                    <h1 id="songTitle" class="text-lg font-bold tracking-tight truncate">Songbook Guitare</h1>
-                    <p id="songArtist" class="text-xs text-slate-500 dark:text-slate-400 truncate">Artiste inconnu</p>
-                    <select id="songSelect" onchange="selectSong(this.value)" class="hidden w-40 sm:w-64 max-w-full text-sm font-bold bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-100 rounded-xl px-2 py-1.5 border border-slate-200 dark:border-slate-600 cursor-pointer" title="Choisir une chanson"></select>
+                    <h1 id="songTitle" class="text-lg font-bold tracking-tight truncate">Zpěvník na kytaru</h1>
+                    <p id="songArtist" class="text-xs text-slate-500 dark:text-slate-400 truncate">Neznámý interpreta</p>
+                    <select id="songSelect" onchange="selectSong(this.value)" class="hidden w-40 sm:w-64 max-w-full text-sm font-bold bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-100 rounded-xl px-2 py-1.5 border border-slate-200 dark:border-slate-600 cursor-pointer" title="Vybrat písničku"></select>
                 </div>
             </div>
             <!-- Notation glissante B / Si / H -->
             <div class="flex items-center select-none">
-                <span class="hidden sm:inline mr-2 text-xs text-slate-500">Notation :</span>
+                <span class="hidden sm:inline mr-2 text-xs text-slate-500">Notace:</span>
                 <div class="inline-flex items-center bg-slate-100 dark:bg-slate-700 p-0.5 rounded-full text-xs font-bold cursor-pointer relative">
                     <span id="labelB" onclick="selectNotation('en')" class="px-2.5 py-0.5 z-10 text-amber-600 dark:text-amber-400 transition-colors">B</span>
                     <span id="labelSi" onclick="selectNotation('fr')" class="px-2.5 py-0.5 z-10 text-slate-500 transition-colors">Si</span>
@@ -175,7 +175,7 @@
         <!-- Contrôles de lecture (remontés en haut, compacts pour petits écrans) -->
         <div class="contents">
 
-            <button id="saveBtn" onclick="saveCurrentSong()" class="hidden items-center justify-center p-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl shadow-sm transition" title="Enregistrer le texte modifié">
+            <button id="saveBtn" onclick="saveCurrentSong()" class="hidden items-center justify-center p-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl shadow-sm transition" title="Uložit upravený text">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/>
                     <polyline points="17 21 17 13 7 13 7 21"/>
@@ -190,17 +190,17 @@
                 <button onclick="transpose(1)" class="w-7 h-7 flex items-center justify-center bg-white dark:bg-slate-600 rounded-lg shadow-sm font-bold transition">+</button>
             </div>
 
-            <div class="flex items-center space-x-1 bg-slate-100 dark:bg-slate-700/60 p-1 rounded-xl" title="Taille du texte">
+            <div class="flex items-center space-x-1 bg-slate-100 dark:bg-slate-700/60 p-1 rounded-xl" title="Velikost textu">
                 <button onclick="changeFontSize(-2)" class="px-2 py-1 bg-white dark:bg-slate-600 rounded-lg text-xs font-bold shadow-sm">A-</button>
                 <button onclick="changeFontSize(2)" class="px-2 py-1 bg-white dark:bg-slate-600 rounded-lg text-xs font-bold shadow-sm">A+</button>
             </div>
 
-            <button id="scrollToggle" onclick="toggleAutoScroll()" class="flex items-center space-x-1.5 px-3.5 py-1.5 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-xs font-semibold shadow-sm transition" title="Défilement" aria-label="Défilement">
+            <button id="scrollToggle" onclick="toggleAutoScroll()" class="flex items-center space-x-1.5 px-3.5 py-1.5 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-xs font-semibold shadow-sm transition" title="Rolování" aria-label="Rolování">
                 <svg id="scrollIcon" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
             </button>
 
             <div id="speedBlock" class="flex items-center space-x-2 bg-slate-100 dark:bg-slate-700/60 px-3 py-1.5 rounded-xl">
-                <span class="text-xs font-semibold text-slate-600 dark:text-slate-300">Vitesse</span>
+                <span class="text-xs font-semibold text-slate-600 dark:text-slate-300">Rychlost</span>
                 <input type="range" id="scrollSpeed" min="0.5" max="4" step="0.5" value="1" class="w-20 accent-amber-500 cursor-pointer">
             </div>
         </div>
@@ -218,10 +218,10 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto mb-4 opacity-50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
                     </svg>
-                    <p class="text-lg font-semibold font-sans mb-1">Aucune chanson sélectionnée</p>
-                    <p class="text-sm font-sans mb-1">Cliquer sur <b>"Ouvrir Dossier"</b> ou <b>"En ligne"</b> ou coller votre fichier.txt.</p>
-                    <p class="text-sm font-sans mb-1"><b>"Espace"</b> pour Défiler/Arrêter et <b>"Entrée"</b> pour Accélérer/Revenir.</p>
-                    <p class="text-sm font-sans"><a href="index.html" download="Songbook_Guitare.html" class="text-amber-600 dark:text-amber-400 underline hover:text-amber-700 dark:hover:text-amber-300">Cliquer ce lien pour télécharger Songbook Guitare.</a></p>
+                    <p class="text-lg font-semibold font-sans mb-1">Není vybrána žádná písnička</p>
+                    <p class="text-sm font-sans mb-1">Klikněte na <b>"Otevřít složku"</b> nebo <b>"Online"</b> nebo vložte soubor .txt.</p>
+                    <p class="text-sm font-sans mb-1"><b>"Mezerník"</b> pro spuštění/zastavení rolování a <b>"Enter"</b> pro zrychlení/návrat.</p>
+                    <p class="text-sm font-sans"><a href="index.html" download="Songbook_Guitare.html" class="text-amber-600 dark:text-amber-400 underline hover:text-amber-700 dark:hover:text-amber-300">Kliknutím na tento odkaz stáhnete Zpěvník.</a></p>
                 </div>
             </div>
 
@@ -235,12 +235,12 @@
                     <button onclick="setChordColumns(2)" id="colBtn2" class="px-2 py-0.5 rounded text-xs font-bold bg-amber-500 text-white">2</button>
                     <button onclick="setChordColumns(3)" id="colBtn3" class="px-2 py-0.5 rounded text-xs font-bold text-slate-500 hover:bg-slate-200 dark:hover:bg-slate-700">3</button>
                 </div>
-                <span class="text-xs text-slate-500">Colonne(s)</span>
+                <span class="text-xs text-slate-500">Sloupec/Sloupce</span>
             </div>
             
             <div id="chordDiagramsContainer" class="flex-1 overflow-y-auto p-3 grid gap-3 justify-items-center content-start" style="grid-template-columns: repeat(2, minmax(0, 1fr));">
                 <div class="text-center py-16 text-slate-400 dark:text-slate-500 text-xs" style="grid-column: 1 / -1;">
-                    Les diagrammes de guitare s'afficheront ici.
+                    Zde se zobrazí kytarové diagramy akordů.
                 </div>
             </div>
         </aside>
@@ -253,36 +253,36 @@
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
             </svg>
-            <span>Ouvrir Dossier</span>
+            <span>Otevřít složku</span>
         </button>
-        <button id="onlineFolderBtn" onclick="loadOnlineSongs()" class="flex items-center space-x-1.5 px-3.5 py-2 bg-sky-500 hover:bg-sky-600 text-white rounded-xl text-xs font-semibold shadow-sm transition" title="Charger les chansons .txt du dossier de cette page (via index.json, ou automatiquement sur GitHub Pages)">
+        <button id="onlineFolderBtn" onclick="loadOnlineSongs()" class="flex items-center space-x-1.5 px-3.5 py-2 bg-sky-500 hover:bg-sky-600 text-white rounded-xl text-xs font-semibold shadow-sm transition" title="Načíst písničky .txt z adresáře této stránky (přes index.json nebo automaticky na GitHub Pages)">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="9"/>
                 <path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/>
             </svg>
-            <span>En ligne</span>
+            <span>Online</span>
         </button>
         <span class="paste-wrap relative z-50 inline-flex">
-            <button id="pasteBtn" onclick="pasteFromClipboard()" class="flex items-center justify-center p-2 bg-violet-500 hover:bg-violet-600 text-white rounded-xl shadow-sm transition" aria-label="Coller">
+            <button id="pasteBtn" onclick="pasteFromClipboard()" class="flex items-center justify-center p-2 bg-violet-500 hover:bg-violet-600 text-white rounded-xl shadow-sm transition" aria-label="Vložit">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/>
                     <rect x="8" y="2" width="8" height="4" rx="1" ry="1"/>
                 </svg>
             </button>
             <span class="paste-tip pointer-events-none absolute bottom-full right-0 mb-2 w-56 px-3 py-2 rounded-lg bg-slate-800 text-white dark:bg-slate-100 dark:text-slate-900 text-xs font-normal leading-snug shadow-lg">
-                Coller le texte du presse-papiers. Pour bien sélectionner des chansons, utilisez l'extension Firefox « Absolute Right Click &amp; Copy ».
+                Vložit text ze schránky. Pro správný výběr písniček použijte doplněk Firefoxu „Absolute Right Click &amp; Copy“.
             </span>
         </span>
         <input type="file" id="fallbackFileInput" multiple accept=".txt" class="hidden">
 
-        <button id="toggleSidebarBtn" onclick="toggleSidebar()" class="flex items-center space-x-1.5 px-3 py-1.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-xl text-xs font-semibold transition" title="Masquer/Afficher le panneau des accords">
+        <button id="toggleSidebarBtn" onclick="toggleSidebar()" class="flex items-center space-x-1.5 px-3 py-1.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-xl text-xs font-semibold transition" title="Skrýt/Zobrazit panel akordů">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-600 dark:text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
-            <span id="sidebarBtnText">Masquer accords</span>
+            <span id="sidebarBtnText">Skrýt akordy</span>
         </button>
 
-        <button id="themeToggle" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 transition" title="Changer de thème">
+        <button id="themeToggle" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 transition" title="Změnit motiv">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 hidden dark:block text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
             </svg>
@@ -291,7 +291,7 @@
             </svg>
         </button>
 
-        <button id="fullScreenBtn" onclick="toggleFullScreen()" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 transition" title="Plein écran">
+        <button id="fullScreenBtn" onclick="toggleFullScreen()" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 transition" title="Celá obrazovka">
             <svg id="fsExpand" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-600 dark:text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8V3h5M16 3h5v5M21 16v5h-5M8 21H3v-5" />
             </svg>
@@ -302,7 +302,7 @@
     </footer>
 
     <!-- Bouton flèche : replie/déplie la zone du bas (visible une fois une chanson chargée) -->
-    <button id="bottomBarToggle" onclick="toggleBottomBar()" class="hidden fixed bottom-3 right-3 z-50 p-3 bg-amber-500 hover:bg-amber-600 text-white rounded-full shadow-lg transition" title="Masquer les boutons du bas">
+    <button id="bottomBarToggle" onclick="toggleBottomBar()" class="hidden fixed bottom-3 right-3 z-50 p-3 bg-amber-500 hover:bg-amber-600 text-white rounded-full shadow-lg transition" title="Skrýt dolní tlačítka">
         <svg id="chevronUp" class="hidden h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
         </svg>
@@ -314,7 +314,7 @@
     <!-- Message Modal -->
     <div id="messageModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white dark:bg-slate-800 rounded-2xl max-w-sm w-full p-6 shadow-2xl border border-slate-200 dark:border-slate-700 text-center">
-            <h3 id="modalTitle" class="font-bold text-lg mb-2">Information</h3>
+            <h3 id="modalTitle" class="font-bold text-lg mb-2">Informace</h3>
             <p id="modalMessage" class="text-sm text-slate-600 dark:text-slate-300 mb-6"></p>
             <button onclick="closeModal()" class="w-full py-2.5 bg-amber-500 hover:bg-amber-600 text-white rounded-xl font-semibold text-sm transition">OK</button>
         </div>
@@ -613,7 +613,7 @@
             if (handle.queryPermission) {
                 let perm = await handle.queryPermission({ mode: 'readwrite' });
                 if (perm !== 'granted' && handle.requestPermission) perm = await handle.requestPermission({ mode: 'readwrite' });
-                if (perm !== 'granted') throw new Error('Permission refusée');
+                if (perm !== 'granted') throw new Error('Přístup odepřen');
             }
             const w = await handle.createWritable();
             await w.write(text);
@@ -621,7 +621,7 @@
         }
 
         function askPastedFileName() {
-            let name = prompt("Nom du fichier à enregistrer (ex. Titre-Artiste, sans .txt) :", "");
+            let name = prompt("Název souboru k uložení (např. Titul-Interpreta, bez .txt) :", "");
             if (name === null) return null;
             name = name.trim().replace(/[\\\/:*?"<>|]/g, '').replace(/\.txt$/i, '').replace(/\s+/g, '_');
             return name ? name + '.txt' : null;
@@ -632,28 +632,28 @@
             let text;
             try {
                 if (!navigator.clipboard || !navigator.clipboard.readText) {
-                    throw new Error("La lecture du presse-papiers n'est pas disponible dans ce navigateur (ou la page n'est pas sécurisée).");
+                    throw new Error("Čtení schránky není v tomto prohlížeči k dispozici (nebo stránka není zabezpečená).");
                 }
                 text = await navigator.clipboard.readText();
             } catch (err) {
-                showAlert("Collage impossible", (err && err.message) || String(err));
+                showAlert("Vložení se nezdařilo", (err && err.message) || String(err));
                 return;
             }
             text = String(text || '').replace(/\r\n?/g, '\n').replace(/\u00a0/g, ' ');
             if (!text.trim()) {
-                showAlert("Presse-papiers vide", "Le presse-papiers ne contient pas de texte.");
+                showAlert("Prázdná schránka", "Schránka neobsahuje žádný text.");
                 return;
             }
             if (currentSong && currentSong.content !== currentSong.savedContent &&
-                !confirm("Le texte de la chanson en cours a été modifié et n'est pas enregistré. Changer de chanson quand même ?")) {
+                !confirm("Text aktuální písničky byl upraven a není uložený. Přesto přepnout písničku?")) {
                 return;
             }
             pasteCount++;
             const song = {
                 id: 'colle_' + Date.now(),
                 filename: '',
-                title: pasteCount === 1 ? 'Texte collé' : 'Texte collé ' + pasteCount,
-                artist: 'Artiste inconnu',
+                title: pasteCount === 1 ? 'Vložený text' : 'Vložený text ' + pasteCount,
+                artist: 'Neznámý interpreta',
                 content: text,
                 unsaved: true
             };
@@ -679,7 +679,7 @@
                 } else if (window.showSaveFilePicker) {
                     const h = await window.showSaveFilePicker({
                         suggestedName: song.filename || (song.title + '.txt'),
-                        types: [{ description: 'Texte', accept: { 'text/plain': ['.txt'] } }]
+                        types: [{ description: 'Text', accept: { 'text/plain': ['.txt'] } }]
                     });
                     await writeToHandle(h, song.content);
                     song.fileHandle = h;
@@ -721,36 +721,36 @@
 
         const chordLibrary = {
             "C": [
-                { name: "C (Ouvert)", frets: [-1, 3, 2, 0, 1, 0], fingers: [-1, 3, 2, 0, 1, 0], baseFret: 1 },
+                { name: "C (Otevřený)", frets: [-1, 3, 2, 0, 1, 0], fingers: [-1, 3, 2, 0, 1, 0], baseFret: 1 },
                 { name: "C (Barré A)", frets: [-1, 3, 5, 5, 5, 3], fingers: [-1, 1, 3, 3, 3, 1], baseFret: 3 }
             ],
             "C/B": [
-                { name: "C/B (Stricte)", frets: [-1, 2, 2, 0, 1, 0], fingers: [-1, 2, 3, 0, 1, 0], baseFret: 1 },
+                { name: "C/B (Přísný)", frets: [-1, 2, 2, 0, 1, 0], fingers: [-1, 2, 3, 0, 1, 0], baseFret: 1 },
                 { name: "C/B (Folk x-2-0-0-1-0)", frets: [-1, 2, 0, 0, 1, 0], fingers: [-1, 2, 0, 0, 1, 0], baseFret: 1 }
             ],
             "C/D": [
-                { name: "C/D (Ouvert x-x-0-0-1-0)", frets: [-1, -1, 0, 0, 1, 0], fingers: [-1, -1, 0, 0, 1, 0], baseFret: 1 },
-                { name: "C/D (Complet x-x-0-5-5-3)", frets: [-1, -1, 0, 5, 5, 3], fingers: [-1, -1, 0, 3, 4, 1], baseFret: 3 }
+                { name: "C/D (Otevřený x-x-0-0-1-0)", frets: [-1, -1, 0, 0, 1, 0], fingers: [-1, -1, 0, 0, 1, 0], baseFret: 1 },
+                { name: "C/D (Kompletní x-x-0-5-5-3)", frets: [-1, -1, 0, 5, 5, 3], fingers: [-1, -1, 0, 3, 4, 1], baseFret: 3 }
             ],
             "A": [
-                { name: "A (Ouvert)", frets: [-1, 0, 2, 2, 2, 0], fingers: [-1, 0, 1, 2, 3, 0], baseFret: 1 }
+                { name: "A (Otevřený)", frets: [-1, 0, 2, 2, 2, 0], fingers: [-1, 0, 1, 2, 3, 0], baseFret: 1 }
             ],
             "Am": [
-                { name: "Am (Ouvert)", frets: [-1, 0, 2, 2, 1, 0], fingers: [-1, 0, 2, 3, 1, 0], baseFret: 1 },
+                { name: "Am (Otevřený)", frets: [-1, 0, 2, 2, 1, 0], fingers: [-1, 0, 2, 3, 1, 0], baseFret: 1 },
                 { name: "Am (Barré E)", frets: [5, 7, 7, 5, 5, 5], fingers: [1, 3, 4, 1, 1, 1], baseFret: 5 }
             ],
             "Asus4": [
                 { name: "Asus4", frets: [-1, 0, 2, 2, 3, 0], fingers: [-1, 0, 1, 2, 3, 0], baseFret: 1 }
             ],
             "G": [
-                { name: "G (Ouvert)", frets: [3, 2, 0, 0, 3, 3], fingers: [2, 1, 0, 0, 3, 4], baseFret: 1 },
+                { name: "G (Otevřený)", frets: [3, 2, 0, 0, 3, 3], fingers: [2, 1, 0, 0, 3, 4], baseFret: 1 },
                 { name: "G (Barré E)", frets: [3, 5, 5, 4, 3, 3], fingers: [1, 3, 4, 2, 1, 1], baseFret: 3 }
             ],
             "D": [
-                { name: "D (Ouvert)", frets: [-1, -1, 0, 2, 3, 2], fingers: [-1, -1, 0, 1, 3, 2], baseFret: 1 }
+                { name: "D (Otevřený)", frets: [-1, -1, 0, 2, 3, 2], fingers: [-1, -1, 0, 1, 3, 2], baseFret: 1 }
             ],
             "Dm": [
-                { name: "Dm (Ouvert)", frets: [-1, -1, 0, 2, 3, 1], fingers: [-1, -1, 0, 2, 3, 1], baseFret: 1 }
+                { name: "Dm (Otevřený)", frets: [-1, -1, 0, 2, 3, 1], fingers: [-1, -1, 0, 2, 3, 1], baseFret: 1 }
             ],
             "Dsus2": [
                 { name: "Dsus2", frets: [-1, -1, 0, 2, 3, 0], fingers: [-1, -1, 0, 1, 2, 0], baseFret: 1 }
@@ -762,13 +762,13 @@
                 { name: "F (Barré)", frets: [1, 3, 3, 2, 1, 1], fingers: [1, 3, 4, 2, 1, 1], baseFret: 1 }
             ],
             "E": [
-                { name: "E (Ouvert)", frets: [0, 2, 2, 1, 0, 0], fingers: [0, 2, 3, 1, 0, 0], baseFret: 1 }
+                { name: "E (Otevřený)", frets: [0, 2, 2, 1, 0, 0], fingers: [0, 2, 3, 1, 0, 0], baseFret: 1 }
             ],
             "Em": [
-                { name: "Em (Ouvert)", frets: [0, 2, 2, 0, 0, 0], fingers: [0, 2, 3, 0, 0, 0], baseFret: 1 }
+                { name: "Em (Otevřený)", frets: [0, 2, 2, 0, 0, 0], fingers: [0, 2, 3, 0, 0, 0], baseFret: 1 }
             ],
             "E7": [
-                { name: "E7 (Ouvert)", frets: [0, 2, 0, 1, 0, 0], fingers: [0, 2, 0, 1, 0, 0], baseFret: 1 }
+                { name: "E7 (Otevřený)", frets: [0, 2, 0, 1, 0, 0], fingers: [0, 2, 0, 1, 0, 0], baseFret: 1 }
             ],
             "Bb": [
                 { name: "Bb (Barré)", frets: [-1, 1, 3, 3, 3, 1], fingers: [-1, 1, 2, 3, 4, 1], baseFret: 1 }
@@ -805,13 +805,13 @@
             const a = mod12(pc - 9);
             const variants = [
                 {
-                    name: label + ' (forme Mi)',
+                    name: label + ' (tvar E)',
                     frets: eOff[q].map(f => f + e),
                     fingers: e === 0 ? eFingOpen[q] : eFingBarre[q],
                     baseFret: Math.max(1, e)
                 },
                 {
-                    name: label + ' (forme La)',
+                    name: label + ' (tvar A)',
                     frets: aOff[q].map(f => f === -1 ? -1 : f + a),
                     fingers: a === 0 ? aFingOpen[q] : aFingBarre[q],
                     baseFret: Math.max(1, a)
@@ -945,7 +945,7 @@
 
         function renderChordDiagrams(chords) {
             if (chords.length === 0) {
-                chordDiagramsContainer.innerHTML = `<div class="text-center py-16 text-slate-400 text-xs" style="grid-column: 1 / -1;">Aucun accord détecté.</div>`;
+                chordDiagramsContainer.innerHTML = `<div class="text-center py-16 text-slate-400 text-xs" style="grid-column: 1 / -1;">Nebyly detekovány žádné akordy.</div>`;
                 return;
             }
             chordDiagramsContainer.innerHTML = chords.map(({ key, display }) => {
@@ -957,7 +957,7 @@
                 if (variants.length > 1) {
                     variantButtons = `
                         <div class="variant-selector">
-                            <span class="text-[10px] font-bold px-1 text-slate-500">Variantes :</span>
+                            <span class="text-[10px] font-bold px-1 text-slate-500">Varianty:</span>
                             ${variants.map((v, idx) => `
                                 <button onclick="setChordVariant('${key}', ${idx})" class="text-left px-2 py-0.5 text-[10px] rounded hover:bg-amber-500 hover:text-white transition ${idx === currentIdx ? 'bg-amber-500 text-white font-bold' : 'text-slate-700 dark:text-slate-300'}">
                                     ${esc(variantLabel(v.name, display))}
@@ -982,11 +982,11 @@
         if (isLocalFile) {
             onlineFolderBtn.disabled = true;
             onlineFolderBtn.className = "flex items-center space-x-1.5 px-3.5 py-2 bg-slate-300 dark:bg-slate-600 text-slate-500 dark:text-slate-400 rounded-xl text-xs font-semibold cursor-not-allowed";
-            onlineFolderBtn.title = "Indisponible : la page est ouverte depuis un fichier local. Hébergez-la (ex: GitHub Pages) pour charger les chansons en ligne.";
+            onlineFolderBtn.title = "Nedostupné: stránka je otevřena z lokálního souboru. Hostujte ji (např. GitHub Pages) pro online načítání písniček.";
         }
 
         function songLabel(song) {
-            return song.artist && song.artist !== "Artiste inconnu" ? `${song.title} – ${song.artist}` : song.title;
+            return song.artist && song.artist !== "Neznámý interpreta" ? `${song.title} – ${song.artist}` : song.title;
         }
 
         function refreshSongSelect() {
@@ -1008,7 +1008,7 @@
             const song = songsDatabase[idx];
             if (!song) return;
             if (currentSong && currentSong.content !== currentSong.savedContent &&
-                !confirm("Le texte de la chanson en cours a été modifié et n'est pas enregistré. Changer de chanson quand même ?")) {
+                !confirm("Text aktuální písničky byl upraven a není uložený. Přesto přepnout písničku?")) {
                 songSelect.value = String(currentSong._dbIndex);
                 return;
             }
@@ -1020,17 +1020,17 @@
             if (res.ok) {
                 let data;
                 try { data = await res.json(); }
-                catch (e) { throw new Error(`Le fichier ${ONLINE_INDEX_FILE} n'est pas un JSON valide.`); }
+                catch (e) { throw new Error(`Soubor ${ONLINE_INDEX_FILE} není platný JSON.`); }
                 const entries = Array.isArray(data) ? data : (data && Array.isArray(data.songs) ? data.songs : null);
-                if (!entries) throw new Error(`Le fichier ${ONLINE_INDEX_FILE} doit contenir une liste de noms de fichiers .txt.`);
+                if (!entries) throw new Error(`Soubor ${ONLINE_INDEX_FILE} musí obsahovat seznam názvů souborů .txt.`);
                 const files = entries.map(e => typeof e === 'string' ? e : (e && e.file)).filter(f => typeof f === 'string' && f.trim());
-                if (files.length === 0) throw new Error(`La liste du fichier ${ONLINE_INDEX_FILE} est vide.`);
+                if (files.length === 0) throw new Error(`Seznam v souboru ${ONLINE_INDEX_FILE} je prázdný.`);
                 return files;
             }
 
             const host = location.hostname;
             if (!/\.github\.io$/i.test(host)) {
-                throw new Error(`Fichier ${ONLINE_INDEX_FILE} introuvable (erreur ${res.status}).`);
+                throw new Error(`Soubor ${ONLINE_INDEX_FILE} nebyl nalezen (chyba ${res.status}).`);
             }
             const owner = host.replace(/\.github\.io$/i, '');
             const segs = location.pathname.split('/').filter(Boolean);
@@ -1040,14 +1040,14 @@
             const api = `https://api.github.com/repos/${owner}/${repo}/contents${sub ? '/' + sub : ''}`;
             const r = await fetch(api);
             if (!r.ok) {
-                throw new Error(`Liste des chansons indisponible (GitHub : erreur ${r.status}).`);
+                throw new Error(`Seznam písniček není dostupný (GitHub: chyba ${r.status}).`);
             }
             const items = await r.json();
             const files = (Array.isArray(items) ? items : [])
                 .filter(it => it.type === 'file' && /\.txt$/i.test(it.name))
                 .map(it => it.name)
-                .sort((x, y) => x.localeCompare(y, 'fr'));
-            if (files.length === 0) throw new Error("Aucun fichier .txt trouvé dans le dossier de la page.");
+                .sort((x, y) => x.localeCompare(y, 'cs'));
+            if (files.length === 0) throw new Error("V adresáři stránky nebyly nalezeny žádné soubory .txt.");
             return files;
         }
 
@@ -1063,11 +1063,11 @@
                 const songs = results.filter(r => r.status === 'fulfilled').map(r => r.value);
                 const failed = results.filter(r => r.status === 'rejected').map(r => r.reason.message);
 
-                if (songs.length === 0) throw new Error("Aucune chanson n'a pu être chargée.");
+                if (songs.length === 0) throw new Error("Nepodařilo se načíst žádnou písničku.");
                 setSongs(songs);
-                if (failed.length > 0) showAlert("Chansons introuvables", "Non chargées : " + failed.join(', '));
+                if (failed.length > 0) showAlert("Nenalezené písničky", "Nenáčteno: " + failed.join(', '));
             } catch (err) {
-                showAlert("Chargement en ligne impossible", err.message || String(err));
+                showAlert("Online načtení selhalo", err.message || String(err));
             }
         }
 
@@ -1128,9 +1128,8 @@
         function parseSongText(filename, text) {
             const baseName = filename.replace(/\.txt$/i, '');
             let title = baseName;
-            let artist = "Artiste inconnu";
+            let artist = "Neznámý interpreta";
             
-            // Reconnaissance de la séparation par tiret (-) entre le titre (avec des underscores pour les espaces) et l'artiste
             if (baseName.includes('-')) {
                 const lastDashIdx = baseName.lastIndexOf('-');
                 const rawTitle = baseName.substring(0, lastDashIdx);
@@ -1141,7 +1140,7 @@
             } else if (baseName.includes('_')) {
                 const parts = baseName.split('_');
                 title = parts[0].replace(/_/g, ' ').trim();
-                artist = parts[1] ? parts[1].replace(/_/g, ' ').trim() : "Artiste inconnu";
+                artist = parts[1] ? parts[1].replace(/_/g, ' ').trim() : "Neznámý interpreta";
             }
             
             return {
@@ -1157,10 +1156,10 @@
             isSidebarVisible = !isSidebarVisible;
             if (isSidebarVisible) {
                 sidebar.classList.remove('hidden');
-                sidebarBtnText.textContent = "Masquer accords";
+                sidebarBtnText.textContent = "Skrýt akordy";
             } else {
                 sidebar.classList.add('hidden');
-                sidebarBtnText.textContent = "Afficher accords";
+                sidebarBtnText.textContent = "Zobrazit akordy";
             }
         }
 
@@ -1170,7 +1169,7 @@
             bottomBar.classList.toggle('hidden', !bottomBarVisible);
             chevronDown.classList.toggle('hidden', !bottomBarVisible);
             chevronUp.classList.toggle('hidden', bottomBarVisible);
-            bottomBarToggle.title = bottomBarVisible ? "Masquer les boutons du bas" : "Afficher les boutons du bas";
+            bottomBarToggle.title = bottomBarVisible ? "Skrýt dolní tlačítka" : "Zobrazit dolní tlačítka";
         }
 
         async function toggleFullScreen() {
@@ -1180,13 +1179,13 @@
                     const el = doc.documentElement;
                     if (el.requestFullscreen) await el.requestFullscreen();
                     else if (el.webkitRequestFullscreen) el.webkitRequestFullscreen();
-                    else throw new Error("non supportée par ce navigateur");
+                    else throw new Error("není podporováno tímto prohlížečem");
                 } else {
                     if (doc.exitFullscreen) await doc.exitFullscreen();
                     else if (doc.webkitExitFullscreen) doc.webkitExitFullscreen();
                 }
             } catch (err) {
-                showAlert("Plein écran", "Impossible de basculer en plein écran : " + (err.message || err));
+                showAlert("Celá obrazovka", "Přepnutí na celou obrazovku se nezdařilo: " + (err.message || err));
             }
         }
 
@@ -1194,7 +1193,7 @@
             const active = !!(document.fullscreenElement || document.webkitFullscreenElement);
             fsExpand.classList.toggle('hidden', active);
             fsCompress.classList.toggle('hidden', !active);
-            fullScreenBtn.title = active ? "Quitter le plein écran" : "Plein écran";
+            fullScreenBtn.title = active ? "Ukončit celou obrazovku" : "Celá obrazovka";
         }
         document.addEventListener('fullscreenchange', refreshFullScreenIcon);
         document.addEventListener('webkitfullscreenchange', refreshFullScreenIcon);
@@ -1244,14 +1243,14 @@
         }
 
         function toggleAutoScroll() {
-            if (!currentSong) { showAlert("Attention", "Veuillez d'abord sélectionner une chanson."); return; }
+            if (!currentSong) { showAlert("Pozor", "Nejprve vyberte písničku."); return; }
             isAutoScrolling = !isAutoScrolling;
             if (isAutoScrolling) {
                 scrollToggleBtn.className = "flex items-center space-x-1.5 px-3.5 py-1.5 bg-rose-500 hover:bg-rose-600 text-white rounded-xl text-xs font-semibold shadow-sm transition";
                 scrollIcon.innerHTML = ICON_PAUSE;
                 speedBlock.classList.add('speed-hidden');
-                scrollToggleBtn.title = "Pause";
-                scrollToggleBtn.setAttribute("aria-label", "Pause");
+                scrollToggleBtn.title = "Pauza";
+                scrollToggleBtn.setAttribute("aria-label", "Pauza");
                 if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
                 startScrolling();
             } else { stopScrolling(); }
@@ -1272,8 +1271,8 @@
             scrollToggleBtn.className = "flex items-center space-x-1.5 px-3.5 py-1.5 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-xs font-semibold shadow-sm transition";
             scrollIcon.innerHTML = ICON_PLAY;
             speedBlock.classList.remove('speed-hidden');
-            scrollToggleBtn.title = "Défilement";
-            scrollToggleBtn.setAttribute("aria-label", "Défilement");
+            scrollToggleBtn.title = "Rolování";
+            scrollToggleBtn.setAttribute("aria-label", "Rolování");
         }
 
         document.getElementById('themeToggle').addEventListener('click', () => document.documentElement.classList.toggle('dark'));
@@ -1315,7 +1314,6 @@
             if (e.code === 'Space' && e.target && e.target.tagName === 'BUTTON') e.preventDefault();
         });
 
-        // Initialisation de base sans chargement automatique d'une chanson
         window.onload = () => {
             setChordColumns(2);
         };
