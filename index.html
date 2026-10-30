@@ -126,6 +126,11 @@
             .paste-wrap:hover .paste-tip { display: block; }
         }
 
+        .logo-tip { display: none; }
+        @media (hover: hover) and (min-width: 768px) {
+            .logo-wrap.is-online:hover .logo-tip { display: block; }
+        }
+
         @media (max-width: 767px) {
             #workspace { flex-direction: column; }
             #sidebar {
@@ -149,11 +154,19 @@
     <header class="bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 px-3 py-2 sm:px-6 sm:py-3 shrink-0 shadow-sm flex flex-wrap items-center gap-x-2 gap-y-2">
         <div class="contents">
             <div class="flex items-center space-x-3 min-w-0">
-                <div class="bg-amber-500 text-white p-2 rounded-xl shadow-md">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <span id="logoWrap" class="logo-wrap relative z-50 inline-flex shrink-0">
+                <a id="logoLink" data-zip="zpevnik.zip" data-label="Stáhnout písničky v zipu" class="bg-amber-500 text-white p-2 rounded-xl shadow-md transition">
+                    <svg id="logoMusicSvg" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
                     </svg>
-                </div>
+                    <svg id="logoDownloadSvg" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M7 10l5 5 5-5M12 15V3" />
+                    </svg>
+                </a>
+                <span class="logo-tip pointer-events-none absolute top-full left-0 mt-2 w-56 px-3 py-2 rounded-lg bg-slate-800 text-white dark:bg-slate-100 dark:text-slate-900 text-xs font-normal leading-snug shadow-lg">
+                    Kliknutím sem si můžete stáhnout písničky v zipu.
+                </span>
+                </span>
                 <div class="min-w-0">
                     <h1 id="songTitle" class="text-lg font-bold tracking-tight truncate">Zpěvník na kytaru</h1>
                     <p id="songArtist" class="text-xs text-slate-500 dark:text-slate-400 truncate">Neznámý interpreta</p>
@@ -985,6 +998,18 @@
             onlineFolderBtn.title = "Nedostupné: stránka je otevřena z lokálního souboru. Hostujte ji (např. GitHub Pages) pro online načítání písniček.";
         }
 
+        function showDownloadLogo() {
+            const link = document.getElementById('logoLink');
+            link.href = link.dataset.zip;
+            link.setAttribute('download', link.dataset.zip);
+            link.setAttribute('aria-label', link.dataset.label);
+            link.classList.remove('bg-amber-500');
+            link.classList.add('bg-amber-600', 'hover:bg-amber-700');
+            document.getElementById('logoMusicSvg').classList.add('hidden');
+            document.getElementById('logoDownloadSvg').classList.remove('hidden');
+            document.getElementById('logoWrap').classList.add('is-online');
+        }
+
         function songLabel(song) {
             return song.artist && song.artist !== "Neznámý interpreta" ? `${song.title} – ${song.artist}` : song.title;
         }
@@ -1065,6 +1090,7 @@
 
                 if (songs.length === 0) throw new Error("Nepodařilo se načíst žádnou písničku.");
                 setSongs(songs);
+                showDownloadLogo();
                 if (failed.length > 0) showAlert("Nenalezené písničky", "Nenáčteno: " + failed.join(', '));
             } catch (err) {
                 showAlert("Online načtení selhalo", err.message || String(err));
