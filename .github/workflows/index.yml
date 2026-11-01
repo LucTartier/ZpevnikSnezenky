@@ -1,0 +1,34 @@
+name: Générer index.json
+
+on:
+  workflow_dispatch:   # bouton "Run workflow" dans l'onglet Actions
+  push:
+
+permissions:
+  contents: write
+
+env:
+  DOSSIER: Chansons   # <- A CHANGER d'un dépôt à l'autre (ex. Chansons) et plus bas l'extension des fichiers
+
+jobs:
+  index:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Générer index.json
+        run: |
+          python3 - <<'EOF'
+          import json, os
+          dossier = os.environ['DOSSIER']
+          noms = sorted(f for f in os.listdir(dossier) if f.lower().endswith('.txt')) # <- A CHANGER en .txt
+          with open('index.json', 'w', encoding='utf-8') as f:
+              json.dump(noms, f, ensure_ascii=False, indent=2)
+          EOF
+
+      - name: Enregistrer si modifié
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.json
+          git diff --staged --quiet || (git commit -m "Mise à jour de index.json" && git push)
