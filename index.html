@@ -146,44 +146,7 @@
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
         .dark ::-webkit-scrollbar-thumb { background: #475569; }
-    
-    /* Retour a la ligne intelligent (2 lignes) pour mobiles et grands textes */
-    .song-pre {
-        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-        white-space: pre-wrap;
-        word-break: break-word;
-    }
-
-    .song-line-pair {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: flex-start;
-        margin-bottom: 0.2rem;
-    }
-
-    .song-line-single {
-        white-space: pre-wrap;
-        word-break: break-word;
-        margin-bottom: 0.15rem;
-    }
-
-    .song-chunk {
-        display: inline-flex;
-        flex-direction: column;
-        white-space: pre;
-    }
-
-    .song-chunk .chord-row {
-        min-height: 1.25em;
-        line-height: 1.25;
-    }
-
-    .song-chunk .lyric-row {
-        min-height: 1.25em;
-        line-height: 1.25;
-    }
-
-</style>
+    </style>
 </head>
 <body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 h-screen flex flex-col font-sans overflow-hidden antialiased selection:bg-amber-500 selection:text-white">
 <!-- Header Navigation -->
@@ -297,21 +260,21 @@
 </div>
 
 <!-- Zone du bas : chargement, panneau accords, thème (repliable) -->
-<footer id="bottomBar" class="bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 px-2 py-2 sm:px-6 shrink-0 flex items-center justify-start overflow-x-auto whitespace-nowrap gap-1.5 sm:gap-2 shadow-lg">
-    <button id="pickFolderBtn" class="flex items-center space-x-1 sm:space-x-1.5 px-2.5 sm:px-3.5 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-xs font-semibold shadow-sm transition shrink-0" title="Otevřít složku">
+<footer id="bottomBar" class="bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 px-3 py-2 sm:px-6 shrink-0 flex items-center flex-wrap gap-2 shadow-lg">
+    <button id="pickFolderBtn" class="flex items-center space-x-1.5 px-3.5 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-xs font-semibold shadow-sm transition">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
         </svg>
-        <span class="hidden sm:inline">Otevřít složku</span>
+        <span>Otevřít složku</span>
     </button>
-    <button id="onlineFolderBtn" onclick="loadOnlineSongs()" class="flex items-center space-x-1 sm:space-x-1.5 px-2.5 sm:px-3.5 py-2 bg-sky-500 hover:bg-sky-600 text-white rounded-xl text-xs font-semibold shadow-sm transition shrink-0" title="Načíst písničky .txt z adresáře této stránky (přes index.json nebo automaticky na GitHub Pages)">
+    <button id="onlineFolderBtn" onclick="loadOnlineSongs()" class="flex items-center space-x-1.5 px-3.5 py-2 bg-sky-500 hover:bg-sky-600 text-white rounded-xl text-xs font-semibold shadow-sm transition" title="Načíst písničky .txt z adresáře této stránky (přes index.json nebo automaticky na GitHub Pages)">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="9"/>
             <path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/>
         </svg>
-        <span class="hidden sm:inline">Online</span>
+        <span>Online</span>
     </button>
-    <span class="paste-wrap relative z-50 inline-flex shrink-0">
+    <span class="paste-wrap relative z-50 inline-flex">
         <button id="pasteBtn" onclick="pasteFromClipboard()" class="flex items-center justify-center p-2 bg-violet-500 hover:bg-violet-600 text-white rounded-xl shadow-sm transition" aria-label="Vložit">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/>
@@ -324,14 +287,14 @@
     </span>
     <input type="file" id="fallbackFileInput" multiple accept=".txt" class="hidden">
 
-    <button id="toggleSidebarBtn" onclick="toggleSidebar()" class="flex items-center space-x-1 sm:space-x-1.5 px-2.5 sm:px-3 py-2 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-xl text-xs font-semibold transition shrink-0" title="Skrýt/Zobrazit panel akordů">
+    <button id="toggleSidebarBtn" onclick="toggleSidebar()" class="flex items-center space-x-1.5 px-3 py-1.5 bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-xl text-xs font-semibold transition" title="Skrýt/Zobrazit panel akordů">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-600 dark:text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
         </svg>
-        <span id="sidebarBtnText" class="hidden sm:inline">Skrýt akordy</span>
+        <span id="sidebarBtnText">Skrýt akordy</span>
     </button>
 
-    <button id="themeToggle" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 transition shrink-0" title="Změnit motiv">
+    <button id="themeToggle" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 transition" title="Změnit motiv">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 hidden dark:block text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
         </svg>
@@ -340,7 +303,7 @@
         </svg>
     </button>
 
-    <button id="fullScreenBtn" onclick="toggleFullScreen()" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 transition shrink-0" title="Celá obrazovka">
+    <button id="fullScreenBtn" onclick="toggleFullScreen()" class="p-2 rounded-xl bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 transition" title="Celá obrazovka">
         <svg id="fsExpand" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-600 dark:text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8V3h5M16 3h5v5M21 16v5h-5M8 21H3v-5" />
         </svg>
@@ -349,7 +312,7 @@
         </svg>
     </button>
 
-    <button id="editBtn" onclick="toggleEditMode()" class="hidden p-2 rounded-xl bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 transition shrink-0" title="Editer">
+    <button id="editBtn" onclick="toggleEditMode()" class="hidden p-2 rounded-xl bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 transition" title="Editer">
         <svg id="editIcon" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-600 dark:text-slate-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
             <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
@@ -988,152 +951,43 @@
         return `<span class="${tooltipClass}">${esc(info.display)}<span class="chord-tooltip">${generateMiniSVG(info.display, info.key)}</span></span>`;
     }
 
-    
-    function chunkPair(cLine, lLine) {
-        const length = Math.max(cLine.length, lLine.length);
-        const cPad = cLine.padEnd(length, ' ');
-        const lPad = lLine.padEnd(length, ' ');
-
-        const starts = new Set();
-        starts.add(0);
-        starts.add(length);
-
-        if (lLine.trim()) {
-            let inW = false;
-            for (let i = 0; i < lPad.length; i++) {
-                const ch = lPad[i];
-                if (ch !== ' ' && !inW) {
-                    starts.add(i);
-                    inW = true;
-                } else if (ch === ' ') {
-                    inW = false;
-                }
-            }
-        }
-
-        const chordRegex = /\S+/g;
-        let m;
-        while ((m = chordRegex.exec(cPad)) !== null) {
-            starts.add(m.index);
-        }
-
-        const sortedStarts = Array.from(starts).sort((a, b) => a - b);
-        const validStarts = [0];
-        for (let idx = 1; idx < sortedStarts.length - 1; idx++) {
-            const pos = sortedStarts[idx];
-            if (pos > 0 && pos < lPad.length) {
-                if (lPad[pos - 1] !== ' ' && lPad[pos] !== ' ') {
-                    continue;
-                }
-            }
-            validStarts.push(pos);
-        }
-        validStarts.push(length);
-
-        const uniqueStarts = Array.from(new Set(validStarts)).sort((a, b) => a - b);
-        const chunks = [];
-        for (let i = 0; i < uniqueStarts.length - 1; i++) {
-            const st = uniqueStarts[i];
-            const en = uniqueStarts[i + 1];
-            chunks.push({
-                c: cPad.slice(st, en),
-                l: lPad.slice(st, en)
-            });
-        }
-        return chunks;
-    }
-
-
     function renderSongContent() {
         if (!currentSong) return;
         const mode = currentSong.notation;
-        const lines = currentSong.content.split('\n');
-        const htmlParts = [];
-        let i = 0;
 
-        while (i < lines.length) {
-            const rawLine = lines[i];
+        const lines = currentSong.content.split('\n');
+        const processedLines = lines.map((rawLine, index) => {
             const line = rawLine.replace(/\r$/, '');
-            const tooltipClass = i < 4 ? "chord-interactive tooltip-below" : "chord-interactive";
+            const tooltipClass = index < 4 ? "chord-interactive tooltip-below" : "chord-interactive";
 
             if (SECTION_RE.test(line)) {
-                htmlParts.push(`<div class="song-line-single"><span class="section-header">${esc(line)}</span></div>`);
-                i++;
-                continue;
-            }
-
-            if (TAB_RE.test(line)) {
-                htmlParts.push(`<div class="song-line-single">${esc(line)}</div>`);
-                i++;
-                continue;
+                return `<span class="section-header">${esc(line)}</span>`;
             }
 
             if (isChordLine(line)) {
-                const nextRaw = (i + 1 < lines.length) ? lines[i + 1].replace(/\r$/, '') : null;
-                const nextIsLyrics = nextRaw !== null &&
-                                     nextRaw.trim() !== '' &&
-                                     !isChordLine(nextRaw) &&
-                                     !SECTION_RE.test(nextRaw) &&
-                                     !TAB_RE.test(nextRaw);
-
-                if (nextIsLyrics) {
-                    const cLine = line;
-                    const lLine = nextRaw;
-                    const chunks = chunkPair(cLine, lLine);
-
-                    const chunkHtmls = chunks.map(chk => {
-                        const cFormatted = mapChordLine(chk.c, tok => {
-                            const p = parseChordToken(tok);
-                            if (!p) return null;
-                            const info = chordInfo(p, transpositionOffset, mode);
-                            return {
-                                plain: p.pre + info.display + p.post,
-                                html: esc(p.pre) + chordSpanHtml(info, tooltipClass) + esc(p.post)
-                            };
-                        }, esc);
-
-                        const lFormatted = mapBracketChords(chk.l, {
-                            text: s => esc(s),
-                            chord: p => chordSpanHtml(chordInfo(p, transpositionOffset, mode), tooltipClass)
-                        });
-
-                        return `<span class="song-chunk"><span class="chord-row">${cFormatted}</span><span class="lyric-row">${lFormatted}</span></span>`;
-                    });
-
-                    htmlParts.push(`<div class="song-line-pair">${chunkHtmls.join('')}</div>`);
-                    i += 2;
-                    continue;
-                } else {
-                    const cFormatted = mapChordLine(line, tok => {
-                        const p = parseChordToken(tok);
-                        if (!p) return null;
-                        const info = chordInfo(p, transpositionOffset, mode);
-                        return {
-                            plain: p.pre + info.display + p.post,
-                            html: esc(p.pre) + chordSpanHtml(info, tooltipClass) + esc(p.post)
-                        };
-                    }, esc);
-                    htmlParts.push(`<div class="song-line-single">${cFormatted}</div>`);
-                    i++;
-                    continue;
-                }
+                return mapChordLine(line, tok => {
+                    const p = parseChordToken(tok);
+                    if (!p) return null;
+                    const info = chordInfo(p, transpositionOffset, mode);
+                    return {
+                        plain: p.pre + info.display + p.post,
+                        html: esc(p.pre) + chordSpanHtml(info, tooltipClass) + esc(p.post)
+                    };
+                }, esc);
             }
 
-            const lFormatted = mapBracketChords(line, {
+            return mapBracketChords(line, {
                 text: s => esc(s),
                 chord: p => chordSpanHtml(chordInfo(p, transpositionOffset, mode), tooltipClass)
             });
-            htmlParts.push(`<div class="song-line-single">${lFormatted}</div>`);
-            i++;
-        }
+        });
 
         songContainer.innerHTML = `
-            <div class="song-pre max-w-4xl mx-auto" style="font-size: ${currentFontSize}px;">${htmlParts.join('')}</div>
+            <pre class="song-pre max-w-4xl mx-auto" style="font-size: ${currentFontSize}px;">${processedLines.join('\n')}</pre>
         `;
 
         renderChordDiagrams(extractAllChords(currentSong.content, transpositionOffset, mode));
     }
-
 
     function renderChordDiagrams(chords) {
         if (chords.length === 0) {
