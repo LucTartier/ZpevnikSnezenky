@@ -147,6 +147,7 @@
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
         .dark ::-webkit-scrollbar-thumb { background: #475569; }
     
+    /* Retour a la ligne intelligent (2 lignes) pour mobiles et grands textes */
     .song-pre {
         font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
         white-space: pre-wrap;
@@ -1132,6 +1133,7 @@
 
         renderChordDiagrams(extractAllChords(currentSong.content, transpositionOffset, mode));
     }
+
 
     function renderChordDiagrams(chords) {
         if (chords.length === 0) {
