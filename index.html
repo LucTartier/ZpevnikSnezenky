@@ -146,7 +146,43 @@
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
         .dark ::-webkit-scrollbar-thumb { background: #475569; }
-    </style>
+    
+    .song-pre {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        white-space: pre-wrap;
+        word-break: break-word;
+    }
+
+    .song-line-pair {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        margin-bottom: 0.2rem;
+    }
+
+    .song-line-single {
+        white-space: pre-wrap;
+        word-break: break-word;
+        margin-bottom: 0.15rem;
+    }
+
+    .song-chunk {
+        display: inline-flex;
+        flex-direction: column;
+        white-space: pre;
+    }
+
+    .song-chunk .chord-row {
+        min-height: 1.25em;
+        line-height: 1.25;
+    }
+
+    .song-chunk .lyric-row {
+        min-height: 1.25em;
+        line-height: 1.25;
+    }
+
+</style>
 </head>
 <body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-100 h-screen flex flex-col font-sans overflow-hidden antialiased selection:bg-amber-500 selection:text-white">
 <!-- Header Navigation -->
@@ -951,39 +987,147 @@
         return `<span class="${tooltipClass}">${esc(info.display)}<span class="chord-tooltip">${generateMiniSVG(info.display, info.key)}</span></span>`;
     }
 
+    
+    function chunkPair(cLine, lLine) {
+        const length = Math.max(cLine.length, lLine.length);
+        const cPad = cLine.padEnd(length, ' ');
+        const lPad = lLine.padEnd(length, ' ');
+
+        const starts = new Set();
+        starts.add(0);
+        starts.add(length);
+
+        if (lLine.trim()) {
+            let inW = false;
+            for (let i = 0; i < lPad.length; i++) {
+                const ch = lPad[i];
+                if (ch !== ' ' && !inW) {
+                    starts.add(i);
+                    inW = true;
+                } else if (ch === ' ') {
+                    inW = false;
+                }
+            }
+        }
+
+        const chordRegex = /\S+/g;
+        let m;
+        while ((m = chordRegex.exec(cPad)) !== null) {
+            starts.add(m.index);
+        }
+
+        const sortedStarts = Array.from(starts).sort((a, b) => a - b);
+        const validStarts = [0];
+        for (let idx = 1; idx < sortedStarts.length - 1; idx++) {
+            const pos = sortedStarts[idx];
+            if (pos > 0 && pos < lPad.length) {
+                if (lPad[pos - 1] !== ' ' && lPad[pos] !== ' ') {
+                    continue;
+                }
+            }
+            validStarts.push(pos);
+        }
+        validStarts.push(length);
+
+        const uniqueStarts = Array.from(new Set(validStarts)).sort((a, b) => a - b);
+        const chunks = [];
+        for (let i = 0; i < uniqueStarts.length - 1; i++) {
+            const st = uniqueStarts[i];
+            const en = uniqueStarts[i + 1];
+            chunks.push({
+                c: cPad.slice(st, en),
+                l: lPad.slice(st, en)
+            });
+        }
+        return chunks;
+    }
+
+
     function renderSongContent() {
         if (!currentSong) return;
         const mode = currentSong.notation;
-
         const lines = currentSong.content.split('\n');
-        const processedLines = lines.map((rawLine, index) => {
+        const htmlParts = [];
+        let i = 0;
+
+        while (i < lines.length) {
+            const rawLine = lines[i];
             const line = rawLine.replace(/\r$/, '');
-            const tooltipClass = index < 4 ? "chord-interactive tooltip-below" : "chord-interactive";
+            const tooltipClass = i < 4 ? "chord-interactive tooltip-below" : "chord-interactive";
 
             if (SECTION_RE.test(line)) {
-                return `<span class="section-header">${esc(line)}</span>`;
+                htmlParts.push(`<div class="song-line-single"><span class="section-header">${esc(line)}</span></div>`);
+                i++;
+                continue;
+            }
+
+            if (TAB_RE.test(line)) {
+                htmlParts.push(`<div class="song-line-single">${esc(line)}</div>`);
+                i++;
+                continue;
             }
 
             if (isChordLine(line)) {
-                return mapChordLine(line, tok => {
-                    const p = parseChordToken(tok);
-                    if (!p) return null;
-                    const info = chordInfo(p, transpositionOffset, mode);
-                    return {
-                        plain: p.pre + info.display + p.post,
-                        html: esc(p.pre) + chordSpanHtml(info, tooltipClass) + esc(p.post)
-                    };
-                }, esc);
+                const nextRaw = (i + 1 < lines.length) ? lines[i + 1].replace(/\r$/, '') : null;
+                const nextIsLyrics = nextRaw !== null &&
+                                     nextRaw.trim() !== '' &&
+                                     !isChordLine(nextRaw) &&
+                                     !SECTION_RE.test(nextRaw) &&
+                                     !TAB_RE.test(nextRaw);
+
+                if (nextIsLyrics) {
+                    const cLine = line;
+                    const lLine = nextRaw;
+                    const chunks = chunkPair(cLine, lLine);
+
+                    const chunkHtmls = chunks.map(chk => {
+                        const cFormatted = mapChordLine(chk.c, tok => {
+                            const p = parseChordToken(tok);
+                            if (!p) return null;
+                            const info = chordInfo(p, transpositionOffset, mode);
+                            return {
+                                plain: p.pre + info.display + p.post,
+                                html: esc(p.pre) + chordSpanHtml(info, tooltipClass) + esc(p.post)
+                            };
+                        }, esc);
+
+                        const lFormatted = mapBracketChords(chk.l, {
+                            text: s => esc(s),
+                            chord: p => chordSpanHtml(chordInfo(p, transpositionOffset, mode), tooltipClass)
+                        });
+
+                        return `<span class="song-chunk"><span class="chord-row">${cFormatted}</span><span class="lyric-row">${lFormatted}</span></span>`;
+                    });
+
+                    htmlParts.push(`<div class="song-line-pair">${chunkHtmls.join('')}</div>`);
+                    i += 2;
+                    continue;
+                } else {
+                    const cFormatted = mapChordLine(line, tok => {
+                        const p = parseChordToken(tok);
+                        if (!p) return null;
+                        const info = chordInfo(p, transpositionOffset, mode);
+                        return {
+                            plain: p.pre + info.display + p.post,
+                            html: esc(p.pre) + chordSpanHtml(info, tooltipClass) + esc(p.post)
+                        };
+                    }, esc);
+                    htmlParts.push(`<div class="song-line-single">${cFormatted}</div>`);
+                    i++;
+                    continue;
+                }
             }
 
-            return mapBracketChords(line, {
+            const lFormatted = mapBracketChords(line, {
                 text: s => esc(s),
                 chord: p => chordSpanHtml(chordInfo(p, transpositionOffset, mode), tooltipClass)
             });
-        });
+            htmlParts.push(`<div class="song-line-single">${lFormatted}</div>`);
+            i++;
+        }
 
         songContainer.innerHTML = `
-            <pre class="song-pre max-w-4xl mx-auto" style="font-size: ${currentFontSize}px;">${processedLines.join('\n')}</pre>
+            <div class="song-pre max-w-4xl mx-auto" style="font-size: ${currentFontSize}px;">${htmlParts.join('')}</div>
         `;
 
         renderChordDiagrams(extractAllChords(currentSong.content, transpositionOffset, mode));
