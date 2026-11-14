@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3Zpěvník na kytaru</title>
+    <title>Zpěvník na kytaru</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -581,6 +581,45 @@
             return res;
         }
 
+        const _wrapCanvas = document.createElement('canvas');
+        const _wrapCtx = _wrapCanvas.getContext('2d');
+        const _WRAP_FONT = 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace';
+
+        function textWidthPx(s, fontSize) {
+            _wrapCtx.font = fontSize + 'px ' + _WRAP_FONT;
+            return _wrapCtx.measureText(s).width;
+        }
+
+        function availableTextWidth() {
+            const cs = getComputedStyle(songContainer);
+            const pad = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
+            return Math.max(120, songContainer.clientWidth - pad);
+        }
+
+        function chunkWidthPx(chk, fontSize) {
+            const base = Math.max(textWidthPx(chk.c, fontSize), textWidthPx(chk.l, fontSize));
+            const chordCount = (chk.c.trim().match(/\S+/g) || []).length;
+            // chord-interactive spans add padding + border + bold weight
+            return base * 1.06 + chordCount * 9;
+        }
+
+        function groupChunksIntoRows(chunks, fontSize) {
+            const avail = availableTextWidth();
+            const rows = [];
+            let row = [], rowW = 0;
+            chunks.forEach(chk => {
+                const w = chunkWidthPx(chk, fontSize);
+                if (row.length > 0 && rowW + w > avail) {
+                    rows.push(row);
+                    row = []; rowW = 0;
+                }
+                row.push(chk);
+                rowW += w;
+            });
+            if (row.length) rows.push(row);
+            return rows;
+        }
+
         function chunkPair(cLine, lLine) {
             const length = Math.max(cLine.length, lLine.length);
             const cPad = cLine.padEnd(length, ' ');
@@ -1072,8 +1111,10 @@
                         const cLine = line;
                         const lLine = nextRaw;
                         const chunks = chunkPair(cLine, lLine);
+                        const rows = groupChunksIntoRows(chunks, currentFontSize);
 
-                        const chunkHtmls = chunks.map(chk => {
+                        rows.forEach(row => {
+                            const chunkHtmls = row.map(chk => {
                             const cFormatted = mapChordLine(chk.c, tok => {
                                 const p = parseChordToken(tok);
                                 if (!p) return null;
@@ -1090,9 +1131,10 @@
                             });
 
                             return `<span class="song-chunk"><span class="chord-row">${cFormatted}</span><span class="lyric-row">${lFormatted}</span></span>`;
-                        });
+                            });
 
-                        htmlParts.push(`<div class="song-line-pair">${chunkHtmls.join('')}</div>`);
+                            htmlParts.push(`<div class="song-line-pair">${chunkHtmls.join('')}</div>`);
+                        });
                         i += 2;
                         continue;
                     } else {
